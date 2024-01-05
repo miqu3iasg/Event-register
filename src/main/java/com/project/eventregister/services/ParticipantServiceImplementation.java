@@ -55,7 +55,7 @@ public class ParticipantServiceImplementation implements ParticipantService {
 
     var participantWithUpdatedCredentials = participantExists.get();
 
-    BeanUtils.copyProperties(participantExists, participantWithUpdatedCredentials);
+    BeanUtils.copyProperties(participantCredentials, participantWithUpdatedCredentials);
 
     participantRepository.save(participantWithUpdatedCredentials);
   }
