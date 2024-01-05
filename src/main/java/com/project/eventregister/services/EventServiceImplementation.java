@@ -3,6 +3,7 @@ package com.project.eventregister.services;
 import com.project.eventregister.dtos.EventDTO;
 import com.project.eventregister.models.event.Event;
 import com.project.eventregister.repositories.EventRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class EventServiceImplementation implements EventService {
   }
 
   @Override
+  @Transactional
   public void registerANewEvent(EventDTO request) {
     if(request.startDate().isAfter(request.endDate())
             || request.startDate().isEqual(request.endDate())) throw new RuntimeException();
@@ -35,6 +37,7 @@ public class EventServiceImplementation implements EventService {
   }
 
   @Override
+  @Transactional
   public void unregisterAEvent(UUID eventId) {
     eventRepository.deleteById(eventId);
   }
