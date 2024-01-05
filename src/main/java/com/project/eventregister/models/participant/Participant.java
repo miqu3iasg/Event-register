@@ -17,7 +17,7 @@ public class Participant {
   private String lastName;
   private String email;
   @ManyToOne
-  @JoinColumn(name = "eventId")
+  @JoinColumn(name = "id")
   private Event event;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;
