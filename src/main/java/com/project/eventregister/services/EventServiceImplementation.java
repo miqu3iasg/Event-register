@@ -20,11 +20,11 @@ public class EventServiceImplementation implements EventService {
   @Override
   public void registerANewEvent(EventDTO request) {
     if(request.startDate().isAfter(request.endDate())
-            && request.startDate().isEqual(request.endDate())) throw new RuntimeException();
+            || request.startDate().isEqual(request.endDate())) throw new RuntimeException();
 
     var event = new Event(
             request.name(),
-            request.description(), 
+            request.description(),
             request.startDate(),
             request.endDate());
 
