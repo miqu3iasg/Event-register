@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 
+//FIXME: Solve bug in Postman
 @SpringBootApplication
 @ComponentScan(basePackages = "com.project.eventregister")
 @EntityScan(basePackages = "com.project.eventregister.models")

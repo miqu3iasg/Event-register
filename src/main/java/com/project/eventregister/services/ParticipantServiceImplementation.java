@@ -1,6 +1,8 @@
 package com.project.eventregister.services;
 
-import com.project.eventregister.dtos.ParticipantDTO;
+import com.project.eventregister.models.participant.ParticipantDTO;
+import com.project.eventregister.exceptions.EventNotFoundException;
+import com.project.eventregister.exceptions.ParticipantNotFoundException;
 import com.project.eventregister.models.event.Event;
 import com.project.eventregister.models.participant.Participant;
 import com.project.eventregister.repositories.EventRepository;
@@ -31,13 +33,13 @@ public class ParticipantServiceImplementation implements ParticipantService {
   @Override
   public Participant getJustOneParticipant(UUID participantId) {
     return participantRepository.findById(participantId)
-            .orElseThrow(RuntimeException::new);
+            .orElseThrow(ParticipantNotFoundException::new);
   }
 
   @Override
   public void unregisterAParticipant(UUID participantId) {
     Optional<Participant> participantExists = Optional.ofNullable(participantRepository.findById(participantId)
-            .orElseThrow(RuntimeException::new));
+            .orElseThrow(ParticipantNotFoundException::new));
 
     if(participantExists.isPresent()) participantRepository.deleteById(participantId);
   }
@@ -45,7 +47,7 @@ public class ParticipantServiceImplementation implements ParticipantService {
   @Override
   public void updateParticipantCredentials(UUID participantId, ParticipantDTO participantCredentials) {
     Optional<Participant> participantExists = Optional.ofNullable(participantRepository.findById(participantId)
-            .orElseThrow(RuntimeException::new));
+            .orElseThrow(ParticipantNotFoundException::new));
 
     participantExists.get().setFirstName(participantCredentials.firstName());
     participantExists.get().setLastName(participantCredentials.lastName());
@@ -62,9 +64,8 @@ public class ParticipantServiceImplementation implements ParticipantService {
 
   @Override
   public void createRegistrationForAnEvent(UUID eventId, ParticipantDTO participantCredentials) {
-    Optional<Event> eventExists = eventRepository.findById(eventId);
-
-    if(eventExists.isEmpty()) throw new RuntimeException("This event not exists.");
+    Optional<Event> eventExists = Optional.ofNullable(eventRepository.findById(eventId)
+            .orElseThrow(EventNotFoundException::new));
 
     var participant = new Participant(participantCredentials.firstName(), participantCredentials.lastName(), participantCredentials.email());
 
@@ -75,12 +76,13 @@ public class ParticipantServiceImplementation implements ParticipantService {
     participant.setUpdatedAt(LocalDateTime.now());
 
     participantRepository.save(participant);
+    eventRepository.save(event);
   }
 
   @Override
   public void cancelRegistrationForAnEvent(UUID participantId) {
     Optional<Participant> participantExists = Optional.ofNullable(participantRepository.findById(participantId)
-            .orElseThrow(RuntimeException::new));
+            .orElseThrow(ParticipantNotFoundException::new));
 
     var participant = participantExists.get();
     participant.setEvent(null);

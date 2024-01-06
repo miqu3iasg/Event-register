@@ -1,6 +1,6 @@
 package com.project.eventregister.services;
 
-import com.project.eventregister.dtos.ParticipantDTO;
+import com.project.eventregister.models.participant.ParticipantDTO;
 import com.project.eventregister.models.participant.Participant;
 
 import java.util.List;

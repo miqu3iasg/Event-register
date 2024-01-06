@@ -1,6 +1,6 @@
 package com.project.eventregister.controllers;
 
-import com.project.eventregister.dtos.ParticipantDTO;
+import com.project.eventregister.models.participant.ParticipantDTO;
 import com.project.eventregister.models.participant.Participant;
 import com.project.eventregister.services.ParticipantService;
 import org.springframework.http.HttpStatus;

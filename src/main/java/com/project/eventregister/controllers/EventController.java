@@ -1,6 +1,6 @@
 package com.project.eventregister.controllers;
 
-import com.project.eventregister.dtos.EventDTO;
+import com.project.eventregister.models.event.EventDTO;
 import com.project.eventregister.models.event.Event;
 import com.project.eventregister.services.EventService;
 import org.springframework.http.HttpStatus;
