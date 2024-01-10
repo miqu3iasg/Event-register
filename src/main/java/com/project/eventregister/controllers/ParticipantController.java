@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("participants")
+@RequestMapping("api/v1/participants")
 public class ParticipantController {
   final ParticipantService participantService;
 
