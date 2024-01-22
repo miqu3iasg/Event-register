@@ -2,6 +2,7 @@ package com.project.eventregister.controllers;
 
 import com.project.eventregister.models.event.EventDTO;
 import com.project.eventregister.models.event.Event;
+import com.project.eventregister.models.event.EventResponseDTO;
 import com.project.eventregister.services.EventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,10 @@ public class EventController {
   }
 
   @PostMapping("/create")
-  ResponseEntity<HttpStatus> registerANewEvent(@RequestBody EventDTO request) {
-    service.registerANewEvent(request);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+  ResponseEntity<UUID> registerANewEvent(@RequestBody EventDTO request) {
+    var event = service.registerANewEvent(request);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(event.getId());
   }
 
   @DeleteMapping("/remove/{id}")
@@ -32,13 +34,13 @@ public class EventController {
   }
 
   @GetMapping("/get-all")
-  ResponseEntity<List<Event>> getAllEvents() {
-    List<Event> events = service.getAllEvents();
+  ResponseEntity<List<EventResponseDTO>> getAllEvents() {
+    var events = service.getAllEvents();
     return ResponseEntity.status(HttpStatus.OK).body(events);
   }
 
   @GetMapping("/get-one/{id}")
-  ResponseEntity<Event> getJustOneEvent(@PathVariable(name = "id") UUID eventId) {
+  ResponseEntity<EventResponseDTO> getJustOneEvent(@PathVariable(name = "id") UUID eventId) {
     var event = service.getJustOneEvent(eventId);
     return ResponseEntity.status(HttpStatus.OK).body(event);
   }

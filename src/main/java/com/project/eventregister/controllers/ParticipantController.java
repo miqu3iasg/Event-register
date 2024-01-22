@@ -42,7 +42,7 @@ public class ParticipantController {
   }
 
   @GetMapping("/get-all")
-  ResponseEntity<List<Participant>> getAllEvents() {
+  ResponseEntity<List<Participant>> getAllParticpants() {
     List<Participant> participants = participantService.getAllParticipants();
     return ResponseEntity.status(HttpStatus.OK).body(participants);
   }
