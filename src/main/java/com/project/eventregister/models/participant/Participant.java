@@ -1,6 +1,8 @@
 package com.project.eventregister.models.participant;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.project.eventregister.models.event.Event;
 import jakarta.persistence.*;
 
@@ -9,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "participants")
+@JsonIgnoreProperties("event")
 public class Participant {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,6 +21,7 @@ public class Participant {
   private String email;
   @ManyToOne
   @JoinColumn(name = "EventId")
+  @JsonBackReference
   private Event event;
   private LocalDateTime createdAt;
   private LocalDateTime updatedAt;

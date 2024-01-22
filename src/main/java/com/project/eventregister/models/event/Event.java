@@ -1,5 +1,7 @@
 package com.project.eventregister.models.event;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.project.eventregister.models.participant.Participant;
 import jakarta.persistence.*;
 
@@ -17,8 +19,12 @@ public class Event {
   private UUID id;
   private String name;
   private String description;
-  @OneToMany(mappedBy = "event")
+
+  @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
+  @JsonBackReference
+  @JsonInclude(JsonInclude.Include.NON_EMPTY)
   private List<Participant> participants;
+
   private LocalDate startDate;
   private LocalDate endDate;
   private LocalDateTime createdAt;
@@ -32,6 +38,7 @@ public class Event {
   }
 
   public Event() {
+
   }
 
   public UUID getId() {
