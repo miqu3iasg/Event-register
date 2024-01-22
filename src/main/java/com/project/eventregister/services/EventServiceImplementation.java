@@ -4,7 +4,9 @@ import com.project.eventregister.models.event.EventDTO;
 import com.project.eventregister.exceptions.EventNotFoundException;
 import com.project.eventregister.exceptions.InvalidDateRangeException;
 import com.project.eventregister.models.event.Event;
+import com.project.eventregister.models.event.EventResponseDTO;
 import com.project.eventregister.repositories.EventRepository;
+import com.project.eventregister.utils.ConvertToDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +24,10 @@ public class EventServiceImplementation implements EventService {
 
   @Override
   @Transactional
-  public void registerANewEvent(EventDTO request) {
-    if(request.startDate().isAfter(request.endDate())
-            || request.startDate().isEqual(request.endDate())) throw new InvalidDateRangeException();
+  public Event registerANewEvent(EventDTO request) {
+    if (request.startDate().isAfter(request.endDate()) || request.startDate().isEqual(request.endDate())) {
+      throw new InvalidDateRangeException();
+    }
 
     var event = new Event(
             request.name(),
@@ -35,7 +38,7 @@ public class EventServiceImplementation implements EventService {
     event.setCreatedAt(LocalDateTime.now());
     event.setUpdatedAt(LocalDateTime.now());
 
-    eventRepository.save(event);
+    return eventRepository.save(event);
   }
 
   @Override
@@ -48,13 +51,17 @@ public class EventServiceImplementation implements EventService {
   }
 
   @Override
-  public List<Event> getAllEvents() {
-    return eventRepository.findAll();
+  public List<EventResponseDTO> getAllEvents() {
+    var events = eventRepository.findAll();
+    var eventResponseDTOs = ConvertToDTO.convertEventsToDTO(events);
+    return eventResponseDTOs;
   }
 
   @Override
-  public Event getJustOneEvent(UUID eventId) throws RuntimeException {
-    return eventRepository.findById(eventId)
+  public EventResponseDTO getJustOneEvent(UUID eventId) throws RuntimeException {
+    var event = eventRepository.findById(eventId)
             .orElseThrow(EventNotFoundException::new);
+    var eventResponseDTO = ConvertToDTO.convertEventToDTO(event);
+    return eventResponseDTO;
   }
 }

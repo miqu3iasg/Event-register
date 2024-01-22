@@ -76,7 +76,6 @@ public class ParticipantServiceImplementation implements ParticipantService {
     participant.setUpdatedAt(LocalDateTime.now());
 
     participantRepository.save(participant);
-    eventRepository.save(event);
   }
 
   @Override
