@@ -38,14 +38,14 @@ public class ParticipantServiceImplementation implements ParticipantService {
 
   @Override
   public void unregisterAParticipant(UUID participantId) {
-    Optional<Participant> participantExists = Optional.ofNullable(participantRepository.findById(participantId)
-            .orElseThrow(ParticipantNotFoundException::new));
+    var participantExists = participantRepository.findById(participantId)
+            .orElseThrow(ParticipantNotFoundException::new);
 
-    if(participantExists.isPresent()) participantRepository.deleteById(participantId);
+    participantRepository.deleteById(participantId);
   }
 
   @Override
-  public void updateParticipantCredentials(UUID participantId, ParticipantDTO participantCredentials) {
+  public Participant updateParticipantCredentials(UUID participantId, ParticipantDTO participantCredentials) {
     Optional<Participant> participantExists = Optional.ofNullable(participantRepository.findById(participantId)
             .orElseThrow(ParticipantNotFoundException::new));
 
@@ -59,11 +59,11 @@ public class ParticipantServiceImplementation implements ParticipantService {
 
     BeanUtils.copyProperties(participantCredentials, participantWithUpdatedCredentials);
 
-    participantRepository.save(participantWithUpdatedCredentials);
+    return participantRepository.save(participantWithUpdatedCredentials);
   }
 
   @Override
-  public void createRegistrationForAnEvent(UUID eventId, ParticipantDTO participantCredentials) {
+  public Participant createRegistrationForAnEvent(UUID eventId, ParticipantDTO participantCredentials) {
     Optional<Event> eventExists = Optional.ofNullable(eventRepository.findById(eventId)
             .orElseThrow(EventNotFoundException::new));
 
@@ -75,7 +75,7 @@ public class ParticipantServiceImplementation implements ParticipantService {
     participant.setCreatedAt(LocalDateTime.now());
     participant.setUpdatedAt(LocalDateTime.now());
 
-    participantRepository.save(participant);
+    return participantRepository.save(participant);
   }
 
   @Override

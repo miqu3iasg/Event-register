@@ -20,11 +20,11 @@ public class ParticipantController {
   }
 
   @PostMapping("/create/{id}")
-  ResponseEntity<HttpStatus> createRegistrationForAnEvent(@PathVariable(name = "id") UUID eventID,
+  ResponseEntity<Participant> createRegistrationForAnEvent(@PathVariable(name = "id") UUID eventID,
                                                           @RequestBody ParticipantDTO participantCredentials) {
 
-    participantService.createRegistrationForAnEvent(eventID, participantCredentials);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+    var participant = participantService.createRegistrationForAnEvent(eventID, participantCredentials);
+    return ResponseEntity.status(HttpStatus.CREATED).body(participant);
   }
 
   @PutMapping("/cancel-registration/{id}")
@@ -34,11 +34,11 @@ public class ParticipantController {
   }
 
   @PutMapping("/update-credentials/{id}")
-  ResponseEntity<HttpStatus> updateParticipantCredentials(@PathVariable(name = "id") UUID participantId,
+  ResponseEntity<Participant> updateParticipantCredentials(@PathVariable(name = "id") UUID participantId,
                                                           @RequestBody ParticipantDTO participantCredentials) {
 
-    participantService.updateParticipantCredentials(participantId, participantCredentials);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    var participant = participantService.updateParticipantCredentials(participantId, participantCredentials);
+    return ResponseEntity.status(HttpStatus.OK).body(participant);
   }
 
   @GetMapping("/get-all")
@@ -51,5 +51,11 @@ public class ParticipantController {
   ResponseEntity<Participant> getJustOneParticipant(@PathVariable(name = "id") UUID participantId) {
     var participant = participantService.getJustOneParticipant(participantId);
     return ResponseEntity.status(HttpStatus.OK).body(participant);
+  }
+
+  @DeleteMapping("/delete/{id}")
+  ResponseEntity<HttpStatus> unregisterAParticipant(@PathVariable(name = "id") UUID participantId) {
+    participantService.unregisterAParticipant(participantId);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 }

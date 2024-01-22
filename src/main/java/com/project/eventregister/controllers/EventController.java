@@ -21,10 +21,9 @@ public class EventController {
   }
 
   @PostMapping("/create")
-  ResponseEntity<UUID> registerANewEvent(@RequestBody EventDTO request) {
+  ResponseEntity<Event> registerANewEvent(@RequestBody EventDTO request) {
     var event = service.registerANewEvent(request);
-
-    return ResponseEntity.status(HttpStatus.CREATED).body(event.getId());
+    return ResponseEntity.status(HttpStatus.CREATED).body(event);
   }
 
   @DeleteMapping("/remove/{id}")
