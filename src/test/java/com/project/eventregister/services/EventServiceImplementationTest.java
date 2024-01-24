@@ -77,7 +77,8 @@ class EventServiceImplementationTest {
     assertThatThrownBy(() -> {
       var invalidEventRequestDTO = new EventDTO(name, description, startDate, endDateBefore);
       service.registerANewEvent(invalidEventRequestDTO);
-    }).isInstanceOf(InvalidDateRangeException.class).hasMessageContaining("Invalid date range.");
+    }).isInstanceOf(InvalidDateRangeException.class)
+            .hasMessageContaining("Invalid date range.");
   }
 
   @Test
