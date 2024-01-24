@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class Event {
   @OneToMany(mappedBy = "event", fetch = FetchType.EAGER)
   @JsonBackReference
   @JsonInclude(JsonInclude.Include.NON_EMPTY)
-  private List<Participant> participants;
+  private List<Participant> participants = new ArrayList<>();
 
   private LocalDate startDate;
   private LocalDate endDate;
