@@ -45,29 +45,32 @@ public class ParticipantServiceImplementation implements ParticipantService {
   }
 
   @Override
-  public Participant updateParticipantCredentials(UUID participantId, ParticipantDTO participantCredentials) {
+  public Participant updateParticipantCredentials(UUID participantId, ParticipantDTO requestParticipantCredentials) {
     Optional<Participant> participantExists = Optional.ofNullable(participantRepository.findById(participantId)
             .orElseThrow(ParticipantNotFoundException::new));
 
-    participantExists.get().setFirstName(participantCredentials.firstName());
-    participantExists.get().setLastName(participantCredentials.lastName());
-    participantExists.get().setEmail(participantCredentials.email());
+    participantExists.get().setFirstName(requestParticipantCredentials.firstName());
+    participantExists.get().setLastName(requestParticipantCredentials.lastName());
+    participantExists.get().setEmail(requestParticipantCredentials.email());
 
     participantExists.get().setUpdatedAt(LocalDateTime.now());
 
     var participantWithUpdatedCredentials = participantExists.get();
 
-    BeanUtils.copyProperties(participantCredentials, participantWithUpdatedCredentials);
+    BeanUtils.copyProperties(requestParticipantCredentials, participantWithUpdatedCredentials);
 
     return participantRepository.save(participantWithUpdatedCredentials);
   }
 
   @Override
-  public Participant createRegistrationForAnEvent(UUID eventId, ParticipantDTO participantCredentials) {
+  public Participant createRegistrationForAnEvent(UUID eventId, ParticipantDTO requestParticipantCredentials) {
     Optional<Event> eventExists = Optional.ofNullable(eventRepository.findById(eventId)
             .orElseThrow(EventNotFoundException::new));
 
-    var participant = new Participant(participantCredentials.firstName(), participantCredentials.lastName(), participantCredentials.email());
+    var participant = new Participant(
+            requestParticipantCredentials.firstName(),
+            requestParticipantCredentials.lastName(),
+            requestParticipantCredentials.email());
 
     var event = eventExists.get();
 

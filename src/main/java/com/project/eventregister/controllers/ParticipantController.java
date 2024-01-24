@@ -21,41 +21,37 @@ public class ParticipantController {
 
   @PostMapping("/create/{id}")
   ResponseEntity<Participant> createRegistrationForAnEvent(@PathVariable(name = "id") UUID eventID,
-                                                          @RequestBody ParticipantDTO participantCredentials) {
-
-    var participant = participantService.createRegistrationForAnEvent(eventID, participantCredentials);
-    return ResponseEntity.status(HttpStatus.CREATED).body(participant);
+                                                          @RequestBody ParticipantDTO requestParticipantCredentials) {
+    return new ResponseEntity<>(participantService
+            .createRegistrationForAnEvent(eventID, requestParticipantCredentials), HttpStatus.CREATED);
   }
 
   @PutMapping("/cancel-registration/{id}")
-  ResponseEntity<HttpStatus> cancelRegistrationForAnEvent(@PathVariable(name = "id") UUID participantId) {
+  ResponseEntity<String> cancelRegistrationForAnEvent(@PathVariable(name = "id") UUID participantId) {
     participantService.cancelRegistrationForAnEvent(participantId);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    return ResponseEntity.ok("Canceled registration in event with successfuly.");
   }
 
   @PutMapping("/update-credentials/{id}")
   ResponseEntity<Participant> updateParticipantCredentials(@PathVariable(name = "id") UUID participantId,
-                                                          @RequestBody ParticipantDTO participantCredentials) {
-
-    var participant = participantService.updateParticipantCredentials(participantId, participantCredentials);
-    return ResponseEntity.status(HttpStatus.OK).body(participant);
+                                                          @RequestBody ParticipantDTO requestParticipantCredentials) {
+    return new ResponseEntity<>(participantService
+            .updateParticipantCredentials(participantId, requestParticipantCredentials), HttpStatus.OK);
   }
 
   @GetMapping("/get-all")
   ResponseEntity<List<Participant>> getAllParticpants() {
-    List<Participant> participants = participantService.getAllParticipants();
-    return ResponseEntity.status(HttpStatus.OK).body(participants);
+    return new ResponseEntity<>(participantService.getAllParticipants(), HttpStatus.OK);
   }
 
   @GetMapping("/get-one/{id}")
   ResponseEntity<Participant> getJustOneParticipant(@PathVariable(name = "id") UUID participantId) {
-    var participant = participantService.getJustOneParticipant(participantId);
-    return ResponseEntity.status(HttpStatus.OK).body(participant);
+    return new ResponseEntity<>(participantService.getJustOneParticipant(participantId), HttpStatus.OK);
   }
 
   @DeleteMapping("/delete/{id}")
-  ResponseEntity<HttpStatus> unregisterAParticipant(@PathVariable(name = "id") UUID participantId) {
+  ResponseEntity<String> unregisterAParticipant(@PathVariable(name = "id") UUID participantId) {
     participantService.unregisterAParticipant(participantId);
-    return ResponseEntity.status(HttpStatus.OK).build();
+    return ResponseEntity.ok("Deleted registration of participant with successfuly.");
   }
 }

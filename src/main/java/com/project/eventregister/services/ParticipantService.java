@@ -9,8 +9,8 @@ import java.util.UUID;
 public interface ParticipantService {
   List<Participant> getAllParticipants();
   Participant getJustOneParticipant(UUID participantId);
-  Participant updateParticipantCredentials(UUID participantId, ParticipantDTO participantCredentials);
+  Participant updateParticipantCredentials(UUID participantId, ParticipantDTO requestParticipantCredentials);
   void unregisterAParticipant(UUID participantId);
-  Participant createRegistrationForAnEvent(UUID eventId, ParticipantDTO request);
+  Participant createRegistrationForAnEvent(UUID eventId, ParticipantDTO requestParticipantCredentials);
   void cancelRegistrationForAnEvent(UUID participantId);
 }
