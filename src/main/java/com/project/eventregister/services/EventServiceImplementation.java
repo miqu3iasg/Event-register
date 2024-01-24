@@ -10,8 +10,10 @@ import com.project.eventregister.utils.ConvertToDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,16 +26,16 @@ public class EventServiceImplementation implements EventService {
 
   @Override
   @Transactional
-  public Event registerANewEvent(EventDTO request) {
-    if (request.startDate().isAfter(request.endDate()) || request.startDate().isEqual(request.endDate())) {
+  public Event registerANewEvent(EventDTO requestEventCreationData) {
+    if (requestEventCreationData.startDate().isAfter(requestEventCreationData.endDate()) || requestEventCreationData.startDate().isEqual(requestEventCreationData.endDate())) {
       throw new InvalidDateRangeException();
     }
 
     var event = new Event(
-            request.name(),
-            request.description(),
-            request.startDate(),
-            request.endDate());
+            requestEventCreationData.name(),
+            requestEventCreationData.description(),
+            requestEventCreationData.startDate(),
+            requestEventCreationData.endDate());
 
     event.setCreatedAt(LocalDateTime.now());
     event.setUpdatedAt(LocalDateTime.now());
@@ -53,15 +55,26 @@ public class EventServiceImplementation implements EventService {
   @Override
   public List<EventResponseDTO> getAllEvents() {
     var events = eventRepository.findAll();
-    var eventResponseDTOs = ConvertToDTO.convertEventsToDTO(events);
-    return eventResponseDTOs;
+    return ConvertToDTO.convertEventsToDTO(events);
   }
 
   @Override
   public EventResponseDTO getJustOneEvent(UUID eventId) throws RuntimeException {
     var event = eventRepository.findById(eventId)
             .orElseThrow(EventNotFoundException::new);
-    var eventResponseDTO = ConvertToDTO.convertEventToDTO(event);
-    return eventResponseDTO;
+    return ConvertToDTO.convertEventToDTO(event);
+  }
+
+  @Override
+  public List<EventResponseDTO> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) {
+    var events = eventRepository.findEventsBetweenDates(startDate, endDate);
+
+    if(events.isEmpty()) throw new EventNotFoundException("No events in date range.");
+
+    return ConvertToDTO.convertEventsToDTO(events);
+  }
+
+  public Optional<Event> getById(UUID eventId) {
+    return eventRepository.findById(eventId);
   }
 }
