@@ -91,4 +91,8 @@ public class ParticipantServiceImplementation implements ParticipantService {
 
     participantRepository.save(participant);
   }
+
+  public Optional<Participant> getById(UUID id) {
+    return participantRepository.findById(id);
+  }
 }
