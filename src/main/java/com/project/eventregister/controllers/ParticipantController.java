@@ -27,9 +27,9 @@ public class ParticipantController {
   }
 
   @PutMapping("/cancel-registration/{id}")
-  ResponseEntity<String> cancelRegistrationForAnEvent(@PathVariable(name = "id") UUID participantId) {
-    participantService.cancelRegistrationForAnEvent(participantId);
-    return ResponseEntity.ok("Canceled registration in event with successfuly.");
+  ResponseEntity<Participant> cancelRegistrationForAnEvent(@PathVariable(name = "id") UUID participantId) {
+    return new ResponseEntity<>(participantService
+            .cancelRegistrationForAnEvent(participantId), HttpStatus.OK);
   }
 
   @PutMapping("/update-credentials/{id}")

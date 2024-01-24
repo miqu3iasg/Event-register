@@ -12,5 +12,5 @@ public interface ParticipantService {
   Participant updateParticipantCredentials(UUID participantId, ParticipantDTO requestParticipantCredentials);
   void unregisterAParticipant(UUID participantId);
   Participant createRegistrationForAnEvent(UUID eventId, ParticipantDTO requestParticipantCredentials);
-  void cancelRegistrationForAnEvent(UUID participantId);
+  Participant cancelRegistrationForAnEvent(UUID participantId);
 }

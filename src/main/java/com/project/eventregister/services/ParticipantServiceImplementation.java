@@ -82,14 +82,14 @@ public class ParticipantServiceImplementation implements ParticipantService {
   }
 
   @Override
-  public void cancelRegistrationForAnEvent(UUID participantId) {
+  public Participant cancelRegistrationForAnEvent(UUID participantId) {
     Optional<Participant> participantExists = Optional.ofNullable(participantRepository.findById(participantId)
             .orElseThrow(ParticipantNotFoundException::new));
 
     var participant = participantExists.get();
     participant.setEvent(null);
 
-    participantRepository.save(participant);
+    return participantRepository.save(participant);
   }
 
   public Optional<Participant> getById(UUID id) {
