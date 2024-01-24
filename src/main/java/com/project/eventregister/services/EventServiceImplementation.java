@@ -8,6 +8,8 @@ import com.project.eventregister.models.event.EventResponseDTO;
 import com.project.eventregister.repositories.EventRepository;
 import com.project.eventregister.utils.ConvertToDTO;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,7 +20,8 @@ import java.util.UUID;
 
 @Service
 public class EventServiceImplementation implements EventService {
-  final EventRepository eventRepository;
+  private final EventRepository eventRepository;
+  private static final Logger log = LoggerFactory.getLogger(EventServiceImplementation.class);
 
   public EventServiceImplementation(EventRepository eventRepository) {
     this.eventRepository = eventRepository;
@@ -69,7 +72,9 @@ public class EventServiceImplementation implements EventService {
   public List<EventResponseDTO> findEventsBetweenDates(LocalDate startDate, LocalDate endDate) {
     var events = eventRepository.findEventsBetweenDates(startDate, endDate);
 
-    if(events.isEmpty()) throw new EventNotFoundException("No events in date range.");
+    if(events.isEmpty()) {
+      throw new EventNotFoundException("No events in date range.");
+    }
 
     return ConvertToDTO.convertEventsToDTO(events);
   }
