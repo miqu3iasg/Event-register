@@ -1,13 +1,14 @@
 package com.project.eventregister.controllers;
 
-import com.project.eventregister.models.participant.ParticipantDTO;
-import com.project.eventregister.models.participant.Participant;
+import com.project.eventregister.dtos.ParticipantDTO;
+import com.project.eventregister.dtos.ParticipantResponseDTO;
 import com.project.eventregister.services.ParticipantService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -20,32 +21,32 @@ public class ParticipantController {
   }
 
   @PostMapping("/create/{id}")
-  ResponseEntity<Participant> createRegistrationForAnEvent(@PathVariable(name = "id") UUID eventID,
-                                                          @RequestBody ParticipantDTO requestParticipantCredentials) {
+  ResponseEntity<Optional<ParticipantResponseDTO>> createRegistrationForAnEvent(@PathVariable(name = "id") UUID eventID,
+                                                                                @RequestBody ParticipantDTO requestParticipantCredentials) {
     return new ResponseEntity<>(participantService
             .createRegistrationForAnEvent(eventID, requestParticipantCredentials), HttpStatus.CREATED);
   }
 
   @PutMapping("/cancel-registration/{id}")
-  ResponseEntity<Participant> cancelRegistrationForAnEvent(@PathVariable(name = "id") UUID participantId) {
+  ResponseEntity<ParticipantResponseDTO> cancelRegistrationForAnEvent(@PathVariable(name = "id") UUID participantId) {
     return new ResponseEntity<>(participantService
             .cancelRegistrationForAnEvent(participantId), HttpStatus.OK);
   }
 
   @PutMapping("/update-credentials/{id}")
-  ResponseEntity<Participant> updateParticipantCredentials(@PathVariable(name = "id") UUID participantId,
-                                                          @RequestBody ParticipantDTO requestParticipantCredentials) {
+  ResponseEntity<Optional<ParticipantResponseDTO>> updateParticipantCredentials(@PathVariable(name = "id") UUID participantId,
+                                                              @RequestBody ParticipantDTO requestParticipantCredentials) {
     return new ResponseEntity<>(participantService
             .updateParticipantCredentials(participantId, requestParticipantCredentials), HttpStatus.OK);
   }
 
   @GetMapping("/get-all")
-  ResponseEntity<List<Participant>> getAllParticpants() {
+  ResponseEntity<List<ParticipantResponseDTO>> getAllParticpants() {
     return new ResponseEntity<>(participantService.getAllParticipants(), HttpStatus.OK);
   }
 
   @GetMapping("/get-one/{id}")
-  ResponseEntity<Participant> getJustOneParticipant(@PathVariable(name = "id") UUID participantId) {
+  ResponseEntity<ParticipantResponseDTO> getJustOneParticipant(@PathVariable(name = "id") UUID participantId) {
     return new ResponseEntity<>(participantService.getJustOneParticipant(participantId), HttpStatus.OK);
   }
 
