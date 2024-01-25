@@ -1,22 +1,14 @@
 package com.project.eventregister.services;
 
-import com.project.eventregister.exceptions.EventNotFoundException;
 import com.project.eventregister.exceptions.InvalidDateRangeException;
-import com.project.eventregister.models.event.Event;
-import com.project.eventregister.models.event.EventDTO;
+import com.project.eventregister.dtos.EventDTO;
 import com.project.eventregister.repositories.EventRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.InvalidIsolationLevelException;
 
 import java.time.LocalDate;
 
