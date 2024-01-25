@@ -1,12 +1,10 @@
 package com.project.eventregister.utils;
 
 import com.project.eventregister.models.event.Event;
-import com.project.eventregister.models.event.EventResponseDTO;
+import com.project.eventregister.dtos.EventResponseDTO;
 import com.project.eventregister.models.participant.Participant;
-import com.project.eventregister.models.participant.ParticipantResponseDTO;
-import org.springframework.beans.BeanUtils;
+import com.project.eventregister.dtos.ParticipantResponseDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,32 +25,25 @@ public class ConvertToDTO {
     return eventDTO;
   }
 
-  public static List<EventResponseDTO> convertEventToDTOTest(List<Event> events) {
-    List<EventResponseDTO> eventDTOs = new ArrayList<>();
-
-    for(Event event : events) {
-      var eventDTO = new EventResponseDTO();
-      BeanUtils.copyProperties(events, eventDTO);
-      eventDTOs.add(eventDTO);
-    }
-
-    return eventDTOs;
-  }
-
   public static List<EventResponseDTO> convertEventsToDTO(List<Event> events) {
     return events.stream().map(ConvertToDTO::convertEventToDTO).collect(Collectors.toList());
   }
 
-  public static ParticipantResponseDTO convertParticipantsToDTO(Participant participant) {
+  public static ParticipantResponseDTO convertParticipantToDTO(Participant participant) {
     var participantDTO = new ParticipantResponseDTO();
     participantDTO.setId(participant.getId());
     participantDTO.setFirstName(participant.getFirstName());
     participantDTO.setLastName(participant.getLastName());
     participantDTO.setEmail(participant.getEmail());
+
+    if(participant.getEvent() != null) {
+      participantDTO.setEvent(participant.getEvent());
+    }
+
     return participantDTO;
   }
 
   public static List<ParticipantResponseDTO> convertParticipantsToDTO(List<Participant> participants) {
-    return participants.stream().map(ConvertToDTO::convertParticipantsToDTO).collect(Collectors.toList());
+    return participants.stream().map(ConvertToDTO::convertParticipantToDTO).collect(Collectors.toList());
   }
 }
