@@ -1,5 +1,7 @@
 package com.project.eventregister.models.participant;
 
+import com.project.eventregister.models.event.Event;
+
 import java.util.UUID;
 
 public class ParticipantResponseDTO {
@@ -7,6 +9,7 @@ public class ParticipantResponseDTO {
   private String firstName;
   private String lastName;
   private String email;
+  private Event event;
 
   public UUID getId() {
     return id;
@@ -38,5 +41,13 @@ public class ParticipantResponseDTO {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public Event getEvent() {
+    return event;
+  }
+
+  public void setEvent(Event event) {
+    this.event = event;
   }
 }
