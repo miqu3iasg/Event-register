@@ -1,10 +1,6 @@
-package com.project.eventregister.models.event;
-
-import com.project.eventregister.models.participant.Participant;
-import com.project.eventregister.models.participant.ParticipantResponseDTO;
+package com.project.eventregister.dtos;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 

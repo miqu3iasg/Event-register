@@ -1,4 +1,4 @@
-package com.project.eventregister.models.participant;
+package com.project.eventregister.dtos;
 
 import com.project.eventregister.models.event.Event;
 

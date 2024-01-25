@@ -1,6 +1,6 @@
-package com.project.eventregister.models.event;
+package com.project.eventregister.dtos;
 
 import java.time.LocalDate;
 
-public record dateRangeRequestDTO(LocalDate startDate, LocalDate endDate) {
+public record DateRangeRequestDTO(LocalDate startDate, LocalDate endDate) {
 }

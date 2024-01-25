@@ -1,4 +1,4 @@
-package com.project.eventregister.models.participant;
+package com.project.eventregister.dtos;
 
 public record ParticipantDTO(String firstName, String lastName, String email) {
 }

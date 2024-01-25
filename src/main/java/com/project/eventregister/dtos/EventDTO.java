@@ -1,4 +1,4 @@
-package com.project.eventregister.models.event;
+package com.project.eventregister.dtos;
 
 import java.time.LocalDate;
 
